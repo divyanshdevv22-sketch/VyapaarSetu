@@ -1,0 +1,2407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSME Business Hub</title>
+    <style>
+        :root {
+            --primary: #7E57C2;
+            --secondary: #00E5FF;
+            --dark-bg: #121212;
+            --dark-card: #1E1E1E;
+            --dark-border: #333333;
+            --dark-text: #E0E0E0;
+            --dark-text-secondary: #B0B0B0;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --danger: #F44336;
+            --accent: #BB86FC;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), #5E35B1);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: "🚀";
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary), #00B8D4);
+            color: var(--dark-bg);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 229, 255, 0.3);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--secondary);
+            color: var(--dark-bg);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: var(--dark-card);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            border: 1px solid var(--dark-border);
+            height: fit-content;
+        }
+
+        .sidebar h3 {
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar ul li a {
+            color: var(--dark-text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .sidebar ul li a:hover,
+        .sidebar ul li a.active {
+            background: linear-gradient(135deg, var(--primary), transparent);
+            color: var(--accent);
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .sidebar ul li a i {
+            margin-right: 0.75rem;
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            background-color: var(--dark-card);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            border: 1px solid var(--dark-border);
+            min-height: 600px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--dark-border);
+        }
+
+        .page-header h2 {
+            color: var(--accent);
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            background: linear-gradient(135deg, var(--dark-card), #252525);
+            border-radius: 12px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            border: 1px solid var(--dark-border);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h3 {
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+            font-size: 1.3rem;
+        }
+
+        .card p {
+            color: var(--dark-text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: #2A2A2A;
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            font-size: 1rem;
+            color: var(--dark-text);
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.1);
+        }
+
+        /* Tables */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            background: #2A2A2A;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .table th {
+            background: linear-gradient(135deg, var(--primary), #5E35B1);
+            color: white;
+            font-weight: 600;
+        }
+
+        .table tr:hover {
+            background-color: rgba(126, 87, 194, 0.1);
+        }
+
+        /* Status badges */
+        .badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            border: 1px solid #4CAF50;
+        }
+
+        .badge-warning {
+            background-color: rgba(255, 152, 0, 0.2);
+            color: #FF9800;
+            border: 1px solid #FF9800;
+        }
+
+        .badge-danger {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: #F44336;
+            border: 1px solid #F44336;
+        }
+
+        .badge-info {
+            background-color: rgba(0, 229, 255, 0.2);
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+        }
+
+        /* Login Page */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--dark-bg), #1A1A1A);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(126, 87, 194, 0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+
+        .login-box {
+            background: var(--dark-card);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            padding: 3rem;
+            width: 100%;
+            max-width: 440px;
+            border: 1px solid var(--dark-border);
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-box h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        /* Charts and Visuals */
+        .chart-container {
+            background: var(--dark-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--dark-border);
+            margin-bottom: 1.5rem;
+        }
+
+        .chart {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #2A2A2A, #1E1E1E);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-text-secondary);
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(126, 87, 194, 0.1), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--dark-card), #252525);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--dark-border);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--dark-text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Progress Bars */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #2A2A2A;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* Billing Specific Styles */
+        .product-search {
+            position: relative;
+        }
+
+        .product-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #2A2A2A;
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .product-suggestion {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            border-bottom: 1px solid var(--dark-border);
+            transition: background 0.2s ease;
+        }
+
+        .product-suggestion:hover {
+            background: rgba(126, 87, 194, 0.2);
+        }
+
+        .product-suggestion:last-child {
+            border-bottom: none;
+        }
+
+        .bill-summary {
+            background: #2A2A2A;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--dark-border);
+            margin-top: 1rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-total {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--secondary);
+            border-top: 2px solid var(--dark-border);
+            padding-top: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Visual Elements */
+        .visual-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .visual-card {
+            background: linear-gradient(135deg, var(--dark-card), #252525);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--dark-border);
+        }
+
+        .activity-list {
+            list-style: none;
+        }
+
+        .activity-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--dark-border);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(126, 87, 194, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        /* Hidden elements */
+        .hidden {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .visual-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+
+            nav ul li {
+                margin: 0;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .main-content {
+                padding: 1.5rem;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="login-box">
+            <div class="login-logo">
+                <span>🚀</span> MSME Business Hub
+            </div>
+            <h2>Welcome Back, Ayman</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" class="form-control" value="ayman" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Enter your password"
+                        required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Login to
+                    Dashboard</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app" class="hidden">
+        <header>
+            <div class="logo">MSME Business Hub</div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link" data-page="dashboard">Dashboard</a></li>
+                    <li><a href="#" class="nav-link" data-page="payment">Payment Verification</a></li>
+                    <li><a href="#" class="nav-link" data-page="waste">Waste Management</a></li>
+                    <li><a href="#" class="nav-link" data-page="guide">Business Guide</a></li>
+                    <li><a href="#" class="nav-link" data-page="billing">Digital Billing</a></li>
+                    <li><a href="#" class="nav-link" data-page="inventory">Inventory</a></li>
+                    <li><a href="#" class="nav-link" data-page="loan">Loans & Schemes</a></li>
+                    <li><a href="#" class="nav-link" data-page="reports">Reports</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <span>👋 Hello, Ayman</span>
+                <button id="logoutBtn" class="btn btn-outline">Logout</button>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="dashboard">
+                <div class="sidebar">
+                    <h3>🚀 Modules</h3>
+                    <ul>
+                        <li><a href="#" class="nav-link active" data-page="dashboard"><i>📊</i> Dashboard</a></li>
+                        <li><a href="#" class="nav-link" data-page="payment"><i>🔍</i> Payment Verification</a></li>
+                        <li><a href="#" class="nav-link" data-page="waste"><i>♻️</i> Waste Management</a></li>
+                        <li><a href="#" class="nav-link" data-page="guide"><i>📚</i> Business Guide</a></li>
+                        <li><a href="#" class="nav-link" data-page="billing"><i>🧾</i> Digital Billing</a></li>
+                        <li><a href="#" class="nav-link" data-page="inventory"><i>📦</i> Inventory Management</a></li>
+                        <li><a href="#" class="nav-link" data-page="loan"><i>💰</i> Loans & Schemes</a></li>
+                        <li><a href="#" class="nav-link" data-page="reports"><i>📈</i> Analytics & Reports</a></li>
+                    </ul>
+                </div>
+
+                <div class="main-content">
+                    <!-- Dashboard Page -->
+                    <div id="dashboardPage" class="page">
+                        <div class="page-header">
+                            <h2>📊 Dashboard Overview</h2>
+                            <div>📅 Today: <span id="currentDate"></span></div>
+                        </div>
+
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number">₹45,820</div>
+                                <div class="stat-label">Total Revenue</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 85%"></div>
+                                </div>
+                                <div style="font-size: 0.8rem; color: var(--success);">↑ 12% from last month</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">128</div>
+                                <div class="stat-label">Total Transactions</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 72%"></div>
+                                </div>
+                                <div style="font-size: 0.8rem; color: var(--success);">↑ 8% from last month</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">94%</div>
+                                <div class="stat-label">Success Rate</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 94%"></div>
+                                </div>
+                                <div style="font-size: 0.8rem; color: var(--success);">↑ 3% from last month</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">₹2,150</div>
+                                <div class="stat-label">Waste Earnings</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 65%"></div>
+                                </div>
+                                <div style="font-size: 0.8rem; color: var(--success);">↑ 15% from last month</div>
+                            </div>
+                        </div>
+
+                        <div class="visual-grid">
+                            <div class="visual-card">
+                                <h3>📈 Revenue Trends</h3>
+                                <div class="chart">
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 2rem; margin-bottom: 1rem;">💰</div>
+                                        <div>Monthly Revenue Analytics</div>
+                                        <div style="font-size: 0.9rem; margin-top: 0.5rem; color: var(--secondary);">
+                                            Steady growth observed
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="visual-card">
+                                <h3>📊 Quick Stats</h3>
+                                <div style="display: grid; gap: 1rem;">
+                                    <div
+                                        style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #2A2A2A; border-radius: 8px;">
+                                        <span>Bills Generated</span>
+                                        <span class="badge badge-success">45</span>
+                                    </div>
+                                    <div
+                                        style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #2A2A2A; border-radius: 8px;">
+                                        <span>Low Stock Items</span>
+                                        <span class="badge badge-warning">3</span>
+                                    </div>
+                                    <div
+                                        style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #2A2A2A; border-radius: 8px;">
+                                        <span>Pending Verifications</span>
+                                        <span class="badge badge-info">2</span>
+                                    </div>
+                                    <div
+                                        style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #2A2A2A; border-radius: 8px;">
+                                        <span>Scheduled Pickups</span>
+                                        <span class="badge badge-success">5</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cards">
+                            <div class="card">
+                                <h3>🔍 Payment Verification</h3>
+                                <p>Verify transaction authenticity with real-time bank integration and fraud detection
+                                </p>
+                                <a href="#" class="nav-link btn btn-primary" data-page="payment">Verify Payment</a>
+                            </div>
+                            <div class="card">
+                                <h3>♻️ Waste Management</h3>
+                                <p>Schedule waste pickup and earn from recyclables with our partner network</p>
+                                <a href="#" class="nav-link btn btn-primary" data-page="waste">Schedule Pickup</a>
+                            </div>
+                            <div class="card">
+                                <h3>📚 Business Guide</h3>
+                                <p>Learn business growth strategies in multiple languages with expert consultations</p>
+                                <a href="#" class="nav-link btn btn-primary" data-page="guide">Explore Guides</a>
+                            </div>
+                            <div class="card">
+                                <h3>🧾 Digital Billing</h3>
+                                <p>Create professional bills with automated GST calculation and inventory updates</p>
+                                <a href="#" class="nav-link btn btn-primary" data-page="billing">Create Bill</a>
+                            </div>
+                        </div>
+
+                        <div class="visual-card" style="margin-top: 2rem;">
+                            <h3>📋 Recent Activity</h3>
+                            <ul class="activity-list">
+                                <li class="activity-item">
+                                    <div class="activity-icon">💰</div>
+                                    <div>
+                                        <div>New bill generated for Customer #1245</div>
+                                        <div style="font-size: 0.8rem; color: var(--dark-text-secondary);">2 hours ago
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="activity-item">
+                                    <div class="activity-icon">✅</div>
+                                    <div>
+                                        <div>Payment verification completed for TXN789012</div>
+                                        <div style="font-size: 0.8rem; color: var(--dark-text-secondary);">4 hours ago
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="activity-item">
+                                    <div class="activity-icon">♻️</div>
+                                    <div>
+                                        <div>Waste pickup scheduled for tomorrow</div>
+                                        <div style="font-size: 0.8rem; color: var(--dark-text-secondary);">1 day ago
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="activity-item">
+                                    <div class="activity-icon">📦</div>
+                                    <div>
+                                        <div>Inventory updated - 5 new products added</div>
+                                        <div style="font-size: 0.8rem; color: var(--dark-text-secondary);">2 days ago
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Payment Verification Page -->
+                    <div id="paymentPage" class="page hidden">
+                        <div class="page-header">
+                            <h2>🔍 Payment Fraud Verification</h2>
+                            <button class="btn btn-primary" id="verifyPaymentBtn">Verify New Payment</button>
+                        </div>
+
+                        <div class="card">
+                            <h3>Verify Payment Transaction</h3>
+                            <p>Enter transaction details to verify with your bank account in real-time</p>
+
+                            <form id="paymentForm" style="margin-top: 1rem;">
+                                <div class="form-group">
+                                    <label for="transactionId">Transaction ID</label>
+                                    <input type="text" id="transactionId" class="form-control"
+                                        placeholder="Enter transaction ID">
+                                </div>
+                                <div class="form-group">
+                                    <label for="amount">Amount (₹)</label>
+                                    <input type="number" id="amount" class="form-control" placeholder="Enter amount">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bankAccount">Bank Account Number</label>
+                                    <input type="text" id="bankAccount" class="form-control" value="XXXXXX7890"
+                                        readonly>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Verify Payment</button>
+                            </form>
+
+                            <div id="verificationResult" class="hidden"
+                                style="margin-top: 1.5rem; padding: 1.5rem; background: #2A2A2A; border-radius: 8px; border-left: 4px solid var(--secondary);">
+                                <h4>Verification Result</h4>
+                                <p id="resultText"></p>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2rem;">
+                            <h3>📋 Verification History</h3>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Transaction ID</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="paymentHistoryTable">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Waste Management Page -->
+                    <div id="wastePage" class="page hidden">
+                        <div class="page-header">
+                            <h2>♻️ Waste Management</h2>
+                            <button class="btn btn-primary" id="schedulePickupBtn">Schedule New Pickup</button>
+                        </div>
+
+                        <div class="cards">
+                            <div class="card">
+                                <h3>Schedule Waste Pickup</h3>
+                                <p>Request a waste collector to visit your shop and get paid for recyclables</p>
+
+                                <form id="wasteForm" style="margin-top: 1rem;">
+                                    <div class="form-group">
+                                        <label for="wasteType">Type of Waste</label>
+                                        <select id="wasteType" class="form-control">
+                                            <option value="plastic">Plastic</option>
+                                            <option value="paper">Paper/Cardboard</option>
+                                            <option value="metal">Metal</option>
+                                            <option value="glass">Glass</option>
+                                            <option value="organic">Organic Waste</option>
+                                            <option value="ewaste">E-Waste</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="wasteQuantity">Approximate Quantity (kg)</label>
+                                        <input type="number" id="wasteQuantity" class="form-control"
+                                            placeholder="Enter quantity in kg" min="1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pickupDate">Preferred Pickup Date</label>
+                                        <input type="date" id="pickupDate" class="form-control">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Schedule Pickup</button>
+                                </form>
+                            </div>
+
+                            <div class="card">
+                                <h3>Nearest Waste Collectors</h3>
+                                <div id="collectorsList">
+                                    <p>🔍 Finding nearest waste collectors...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2rem;">
+                            <h3>📋 Scheduled Pickups</h3>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Waste Type</th>
+                                        <th>Quantity</th>
+                                        <th>Status</th>
+                                        <th>Collector</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pickupHistory">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Business Guide Page -->
+                    <div id="guidePage" class="page hidden">
+                        <div class="page-header">
+                            <h2>📚 Business Growth Guide</h2>
+                            <button class="btn btn-primary" id="bookExpertBtn">Book Expert Session</button>
+                        </div>
+
+                        <div class="cards">
+                            <div class="card">
+                                <h3>Learning Resources</h3>
+                                <p>Select your preferred language for business guides and tutorials</p>
+                                <div class="form-group">
+                                    <select id="languageSelect" class="form-control">
+                                        <option value="english">English</option>
+                                        <option value="hindi">Hindi</option>
+                                        <option value="tamil">Tamil</option>
+                                        <option value="telugu">Telugu</option>
+                                        <option value="bengali">Bengali</option>
+                                        <option value="marathi">Marathi</option>
+                                    </select>
+                                </div>
+
+                                <div id="guideContent" style="margin-top: 1rem;">
+                                    <h4>🚀 Business Growth Tips</h4>
+                                    <ul style="list-style: none; padding: 0;">
+                                        <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--dark-border);">✅
+                                            Understand your customers and their needs</li>
+                                        <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--dark-border);">✅
+                                            Keep track of your finances regularly</li>
+                                        <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--dark-border);">✅
+                                            Use digital tools for better efficiency</li>
+                                        <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--dark-border);">✅
+                                            Network with other local businesses</li>
+                                        <li style="padding: 0.5rem 0;">✅ Focus on customer service excellence</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <h3>Expert Consultation</h3>
+                                <p>Book one-on-one sessions with industry experts to grow your business</p>
+
+                                <form id="expertForm" style="margin-top: 1rem;">
+                                    <div class="form-group">
+                                        <label for="expertType">Area of Consultation</label>
+                                        <select id="expertType" class="form-control">
+                                            <option value="finance">Financial Management</option>
+                                            <option value="marketing">Digital Marketing</option>
+                                            <option value="operations">Business Operations</option>
+                                            <option value="legal">Legal Compliance</option>
+                                            <option value="export">Export Guidance</option>
+                                            <option value="technology">Technology Adoption</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sessionDate">Preferred Date</label>
+                                        <input type="date" id="sessionDate" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sessionTime">Preferred Time</label>
+                                        <input type="time" id="sessionTime" class="form-control">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Book Session (₹500/session)</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Digital Billing Page with Automated Product Selection -->
+                    <div id="billingPage" class="page hidden">
+                        <div class="page-header">
+                            <h2>🧾 Digital Billing System</h2>
+                            <button class="btn btn-primary" id="createBillBtn">Create New Bill</button>
+                        </div>
+
+                        <div class="cards">
+                            <div class="card" style="grid-column: 1 / -1;">
+                                <h3>Create Automated Bill</h3>
+                                <p>Select products from your inventory - prices and GST are automatically calculated</p>
+
+                                <form id="billForm">
+                                    <div class="form-group">
+                                        <label for="customerName">Customer Name</label>
+                                        <input type="text" id="customerName" class="form-control"
+                                            placeholder="Enter customer name">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="customerPhone">Customer Phone (Optional)</label>
+                                        <input type="text" id="customerPhone" class="form-control"
+                                            placeholder="Enter phone number">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Add Products</label>
+                                        <div class="product-search">
+                                            <input type="text" id="productSearch" class="form-control"
+                                                placeholder="Search products from inventory...">
+                                            <div id="productSuggestions" class="product-suggestions"></div>
+                                        </div>
+                                        <small style="color: var(--dark-text-secondary);">Start typing to search
+                                            products from your inventory</small>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Selected Products</label>
+                                        <div id="selectedProducts"
+                                            style="min-height: 100px; border: 1px solid var(--dark-border); border-radius: 8px; padding: 1rem; background: #2A2A2A;">
+                                            <div
+                                                style="text-align: center; color: var(--dark-text-secondary); padding: 2rem;">
+                                                No products selected. Search and add products above.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bill-summary">
+                                        <h4>Bill Summary</h4>
+                                        <div class="summary-row">
+                                            <span>Subtotal:</span>
+                                            <span id="summarySubtotal">₹0.00</span>
+                                        </div>
+                                        <div class="summary-row">
+                                            <span>GST (18%):</span>
+                                            <span id="summaryGst">₹0.00</span>
+                                        </div>
+                                        <div class="summary-row summary-total">
+                                            <span>Total Amount:</span>
+                                            <span id="summaryTotal">₹0.00</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary">Generate & Save Bill</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2rem;">
+                            <h3>📋 Recent Bills</h3>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Bill No.</th>
+                                        <th>Date</th>
+                                        <th>Customer</th>
+                                        <th>Amount</th>
+                                        <th>GST</th>
+                                        <th>Total</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="billsHistory">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Inventory Management Page -->
+                    <div id="inventoryPage" class="page hidden">
+                        <div class="page-header">
+                            <h2>📦 Inventory Management</h2>
+                            <button class="btn btn-primary" id="addProductBtn">Add New Product</button>
+                        </div>
+
+                        <div class="cards">
+                            <div class="card">
+                                <h3>Add New Product</h3>
+                                <p>Add products to your inventory with details and stock information</p>
+
+                                <form id="inventoryForm" style="margin-top: 1rem;">
+                                    <div class="form-group">
+                                        <label for="productName">Product Name</label>
+                                        <input type="text" id="productName" class="form-control"
+                                            placeholder="Enter product name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="productCategory">Category</label>
+                                        <select id="productCategory" class="form-control">
+                                            <option value="electronics">Electronics</option>
+                                            <option value="clothing">Clothing</option>
+                                            <option value="groceries">Groceries</option>
+                                            <option value="stationery">Stationery</option>
+                                            <option value="furniture">Furniture</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="productPrice">Price (₹)</label>
+                                        <input type="number" id="productPrice" class="form-control"
+                                            placeholder="Enter price" step="0.01">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="productStock">Stock Quantity</label>
+                                        <input type="number" id="productStock" class="form-control"
+                                            placeholder="Enter stock quantity">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="productDescription">Description</label>
+                                        <textarea id="productDescription" class="form-control"
+                                            placeholder="Enter product description" rows="3"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Add to Inventory</button>
+                                </form>
+                            </div>
+
+                            <div class="card">
+                                <h3>Inventory Summary</h3>
+                                <div class="stats-grid" style="grid-template-columns: 1fr 1fr;">
+                                    <div class="stat-card">
+                                        <div class="stat-number" id="totalProducts">0</div>
+                                        <div class="stat-label">Total Products</div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <div class="stat-number" id="lowStockItems">0</div>
+                                        <div class="stat-label">Low Stock Items</div>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 1.5rem;">
+                                    <h4>📊 Stock Overview</h4>
+                                    <div class="chart">
+                                        📈 Inventory Chart - Stock levels by category
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2rem;">
+                            <h3>📋 Product Inventory</h3>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Product ID</th>
+                                        <th>Product Name</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>Stock</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="inventoryTable">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Loan & Government Schemes Page -->
+                    <div id="loanPage" class="page hidden">
+                        <div class="page-header">
+                            <h2>🚀 Business Loans & Government Schemes</h2>
+                            <button class="btn btn-primary" id="checkEligibilityBtn">Check Your Eligibility</button>
+                        </div>
+
+                        <div class="cards">
+                            <!-- Bank Loans Section -->
+                            <div class="card" style="grid-column: 1 / -1;">
+                                <h3>🏦 Partner Bank Loans</h3>
+                                <p>Get quick business loans from our partner banks with special rates for MSMEs</p>
+
+                                <div class="loan-cards"
+                                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                                    <div class="loan-card"
+                                        style="background: #2A2A2A; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--dark-border);">
+                                        <div
+                                            style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                            <div
+                                                style="width: 40px; height: 40px; background: #FF6B00; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white;">
+                                                YB</div>
+                                            <div>
+                                                <h4 style="margin: 0; color: var(--accent);">Yes Bank MSME Loan</h4>
+                                                <p
+                                                    style="margin: 0; font-size: 0.9rem; color: var(--dark-text-secondary);">
+                                                    Quick Business Expansion</p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                                            <div>
+                                                <div style="font-size: 0.8rem; color: var(--dark-text-secondary);">Loan
+                                                    Amount</div>
+                                                <div style="font-weight: bold; color: var(--secondary);">₹50,000 - ₹50
+                                                    Lakhs</div>
+                                            </div>
+                                            <div>
+                                                <div style="font-size: 0.8rem; color: var(--dark-text-secondary);">
+                                                    Interest Rate</div>
+                                                <div style="font-weight: bold; color: var(--success);">10.5% - 16% p.a.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-primary" onclick="applyYesBankLoan()"
+                                            style="width: 100%;">Apply Now</button>
+                                    </div>
+
+                                    <div class="loan-card"
+                                        style="background: #2A2A2A; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--dark-border);">
+                                        <div
+                                            style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                            <div
+                                                style="width: 40px; height: 40px; background: #0047AB; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white;">
+                                                SBI</div>
+                                            <div>
+                                                <h4 style="margin: 0; color: var(--accent);">SBI MSME Loan</h4>
+                                                <p
+                                                    style="margin: 0; font-size: 0.9rem; color: var(--dark-text-secondary);">
+                                                    Working Capital</p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                                            <div>
+                                                <div style="font-size: 0.8rem; color: var(--dark-text-secondary);">Loan
+                                                    Amount</div>
+                                                <div style="font-weight: bold; color: var(--secondary);">₹1 Lakh - ₹2
+                                                    Crores</div>
+                                            </div>
+                                            <div>
+                                                <div style="font-size: 0.8rem; color: var(--dark-text-secondary);">
+                                                    Interest Rate</div>
+                                                <div style="font-weight: bold; color: var(--success);">9.5% - 14% p.a.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-primary" onclick="applySBILoan()"
+                                            style="width: 100%;">Apply Now</button>
+                                    </div>
+
+                                    <div class="loan-card"
+                                        style="background: #2A2A2A; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--dark-border);">
+                                        <div
+                                            style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                            <div
+                                                style="width: 40px; height: 40px; background: #FF4F00; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white;">
+                                                HDFC</div>
+                                            <div>
+                                                <h4 style="margin: 0; color: var(--accent);">HDFC Business Loan</h4>
+                                                <p
+                                                    style="margin: 0; font-size: 0.9rem; color: var(--dark-text-secondary);">
+                                                    Equipment & Expansion</p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                                            <div>
+                                                <div style="font-size: 0.8rem; color: var(--dark-text-secondary);">Loan
+                                                    Amount</div>
+                                                <div style="font-weight: bold; color: var(--secondary);">₹50,000 - ₹40
+                                                    Lakhs</div>
+                                            </div>
+                                            <div>
+                                                <div style="font-size: 0.8rem; color: var(--dark-text-secondary);">
+                                                    Interest Rate</div>
+                                                <div style="font-weight: bold; color: var(--success);">11% - 17% p.a.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-primary" onclick="applyHDFCLoan()"
+                                            style="width: 100%;">Apply Now</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Government Schemes Section -->
+                            <div class="card" style="grid-column: 1 / -1;">
+                                <h3>🇮🇳 Government MSME Schemes</h3>
+                                <p>Access various government schemes and subsidies for your business growth</p>
+
+                                <div class="scheme-cards"
+                                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                                    <div class="scheme-card"
+                                        style="background: #2A2A2A; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--dark-border); border-left: 4px solid #FF6B00;">
+                                        <h4 style="color: var(--accent); margin-bottom: 1rem;">Pradhan Mantri MUDRA
+                                            Yojana (PMMY)</h4>
+                                        <p style="color: var(--dark-text-secondary); margin-bottom: 1rem;">Loans up to
+                                            ₹10 lakhs for non-corporate, non-farm small/micro enterprises</p>
+                                        <div
+                                            style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                                            <span class="badge badge-info">Shishu: ₹50,000</span>
+                                            <span class="badge badge-info">Kishor: ₹5 Lakhs</span>
+                                            <span class="badge badge-info">Tarun: ₹10 Lakhs</span>
+                                        </div>
+                                        <button class="btn btn-outline" onclick="openMUDRAWebsite()"
+                                            style="width: 100%;">Visit Official Website</button>
+                                    </div>
+
+                                    <div class="scheme-card"
+                                        style="background: #2A2A2A; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--dark-border); border-left: 4px solid #0047AB;">
+                                        <h4 style="color: var(--accent); margin-bottom: 1rem;">Credit Guarantee Fund
+                                            Scheme (CGTMSE)</h4>
+                                        <p style="color: var(--dark-text-secondary); margin-bottom: 1rem;">
+                                            Collateral-free loans up to ₹2 crores for MSMEs</p>
+                                        <div
+                                            style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                                            <span class="badge badge-success">No Collateral</span>
+                                            <span class="badge badge-success">Up to ₹2 Crores</span>
+                                            <span class="badge badge-success">Guarantee Cover</span>
+                                        </div>
+                                        <button class="btn btn-outline" onclick="openCGTMSEWebsite()"
+                                            style="width: 100%;">Visit Official Website</button>
+                                    </div>
+
+                                    <div class="scheme-card"
+                                        style="background: #2A2A2A; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--dark-border); border-left: 4px solid #28A745;">
+                                        <h4 style="color: var(--accent); margin-bottom: 1rem;">Stand-Up India</h4>
+                                        <p style="color: var(--dark-text-secondary); margin-bottom: 1rem;">Loans for
+                                            SC/ST and women entrepreneurs (₹10 lakhs to ₹1 crore)</p>
+                                        <div
+                                            style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                                            <span class="badge badge-warning">SC/ST Entrepreneurs</span>
+                                            <span class="badge badge-warning">Women Entrepreneurs</span>
+                                            <span class="badge badge-warning">Greenfield Projects</span>
+                                        </div>
+                                        <button class="btn btn-outline" onclick="openStandUpIndiaWebsite()"
+                                            style="width: 100%;">Visit Official Website</button>
+                                    </div>
+
+                                    <div class="scheme-card"
+                                        style="background: #2A2A2A; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--dark-border); border-left: 4px solid #DC3545;">
+                                        <h4 style="color: var(--accent); margin-bottom: 1rem;">PSB Loans in 59 Minutes
+                                        </h4>
+                                        <p style="color: var(--dark-text-secondary); margin-bottom: 1rem;">Get
+                                            in-principle approval for business loans up to ₹5 crores in 59 minutes</p>
+                                        <div
+                                            style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                                            <span class="badge badge-danger">59 Minutes Approval</span>
+                                            <span class="badge badge-danger">Up to ₹5 Crores</span>
+                                            <span class="badge badge-danger">PSB Loans</span>
+                                        </div>
+                                        <button class="btn btn-outline" onclick="openPSB59Website()"
+                                            style="width: 100%;">Visit Official Website</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Eligibility Calculator -->
+                            <div class="card">
+                                <h3>📊 Loan Eligibility Calculator</h3>
+                                <p>Check how much loan you can get based on your business revenue</p>
+
+                                <form id="eligibilityForm" style="margin-top: 1rem;">
+                                    <div class="form-group">
+                                        <label for="monthlyRevenue">Average Monthly Revenue (₹)</label>
+                                        <input type="number" id="monthlyRevenue" class="form-control"
+                                            placeholder="Enter monthly revenue">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="businessAge">Business Age (Years)</label>
+                                        <input type="number" id="businessAge" class="form-control"
+                                            placeholder="Years in business">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="creditScore">Credit Score (If Known)</label>
+                                        <input type="number" id="creditScore" class="form-control"
+                                            placeholder="300-900">
+                                    </div>
+                                    <button type="button" class="btn btn-primary" onclick="calculateEligibility()"
+                                        style="width: 100%;">Check Eligibility</button>
+                                </form>
+
+                                <div id="eligibilityResult" class="hidden"
+                                    style="margin-top: 1.5rem; padding: 1rem; background: #2A2A2A; border-radius: 8px; border-left: 4px solid var(--secondary);">
+                                    <h4>Eligibility Result</h4>
+                                    <p id="eligibilityText"></p>
+                                </div>
+                            </div>
+
+                            <!-- Loan Requirements -->
+                            <div class="card">
+                                <h3>📋 Common Requirements</h3>
+                                <p>Documents typically needed for MSME loans</p>
+
+                                <div style="margin-top: 1rem;">
+                                    <div
+                                        style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                        <span style="color: var(--success);">✓</span>
+                                        <span>Business Registration Proof</span>
+                                    </div>
+                                    <div
+                                        style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                        <span style="color: var(--success);">✓</span>
+                                        <span>GST Registration Certificate</span>
+                                    </div>
+                                    <div
+                                        style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                        <span style="color: var(--success);">✓</span>
+                                        <span>Bank Statements (6-12 months)</span>
+                                    </div>
+                                    <div
+                                        style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                        <span style="color: var(--success);">✓</span>
+                                        <span>Income Tax Returns (2-3 years)</span>
+                                    </div>
+                                    <div
+                                        style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                        <span style="color: var(--success);">✓</span>
+                                        <span>Business Address Proof</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <span style="color: var(--success);">✓</span>
+                                        <span>KYC Documents</span>
+                                    </div>
+                                </div>
+
+                                <div
+                                    style="margin-top: 1.5rem; padding: 1rem; background: rgba(0, 229, 255, 0.1); border-radius: 8px;">
+                                    <h5 style="color: var(--secondary); margin-bottom: 0.5rem;">💡 Pro Tip</h5>
+                                    <p style="font-size: 0.9rem; margin: 0; color: var(--dark-text-secondary);">
+                                        Maintain good banking history and file GST returns regularly to improve loan
+                                        eligibility.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reports & Analytics Page -->
+                    <div id="reportsPage" class="page hidden">
+                        <div class="page-header">
+                            <h2>📈 Analytics & Reports</h2>
+                            <button class="btn btn-primary" id="generateReportBtn">Generate Full Report</button>
+                        </div>
+
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number">₹45,820</div>
+                                <div class="stat-label">Total Revenue</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">128</div>
+                                <div class="stat-label">Total Transactions</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">94%</div>
+                                <div class="stat-label">Success Rate</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">₹2,150</div>
+                                <div class="stat-label">Waste Earnings</div>
+                            </div>
+                        </div>
+
+                        <div class="cards">
+                            <div class="card">
+                                <h3>📊 Revenue Analytics</h3>
+                                <div class="chart">
+                                    📈 Revenue Chart - Monthly revenue trends and projections
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <h3>📈 Transaction Overview</h3>
+                                <div class="chart">
+                                    📊 Transaction Chart - Payment success vs failure rates
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card" style="margin-top: 2rem;">
+                            <h3>📋 Detailed Reports</h3>
+                            <div class="form-group">
+                                <label for="reportType">Select Report Type</label>
+                                <select id="reportType" class="form-control">
+                                    <option value="financial">Financial Summary</option>
+                                    <option value="inventory">Inventory Report</option>
+                                    <option value="sales">Sales Analysis</option>
+                                    <option value="waste">Waste Management</option>
+                                    <option value="customer">Customer Insights</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="reportPeriod">Report Period</label>
+                                <select id="reportPeriod" class="form-control">
+                                    <option value="weekly">Last 7 Days</option>
+                                    <option value="monthly">Last 30 Days</option>
+                                    <option value="quarterly">Last 3 Months</option>
+                                    <option value="yearly">Last 12 Months</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" onclick="generateReport()" style="width: 100%;">Generate
+                                Custom Report</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API Base URL
+        const API_BASE = 'http://localhost:5000/api';
+
+        // Sample product database (in real app, this would come from backend)
+        const sampleProducts = [
+            { id: 1, name: "Laptop", price: 45000, category: "electronics", gst: 18 },
+            { id: 2, name: "Office Chair", price: 7500, category: "furniture", gst: 18 },
+            { id: 3, name: "Notebooks", price: 120, category: "stationery", gst: 12 },
+            { id: 4, name: "Wireless Mouse", price: 800, category: "electronics", gst: 18 },
+            { id: 5, name: "Desk Lamp", price: 1500, category: "furniture", gst: 18 },
+            { id: 6, name: "Pen Set", price: 250, category: "stationery", gst: 12 },
+            { id: 7, name: "Monitor", price: 12000, category: "electronics", gst: 18 },
+            { id: 8, name: "Keyboard", price: 1800, category: "electronics", gst: 18 }
+        ];
+
+        let selectedProducts = [];
+
+        // Current date for dashboard
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-IN');
+
+        // Login functionality
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch(`${API_BASE}/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    document.getElementById('loginPage').classList.add('hidden');
+                    document.getElementById('app').classList.remove('hidden');
+                    loadDashboardData();
+                } else {
+                    alert('Login failed: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Cannot connect to server. Make sure backend is running on port 5000');
+            }
+        });
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function () {
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('app').classList.add('hidden');
+            document.getElementById('password').value = '';
+        });
+
+        // Navigation between pages
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetPage = this.getAttribute('data-page');
+
+                // Hide all pages
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.add('hidden');
+                });
+
+                // Show target page
+                document.getElementById(targetPage + 'Page').classList.remove('hidden');
+
+                // Update active link in sidebar
+                document.querySelectorAll('.sidebar a').forEach(sidebarLink => {
+                    sidebarLink.classList.remove('active');
+                });
+                this.classList.add('active');
+
+                // Load data for specific pages
+                if (targetPage === 'payment') {
+                    loadPaymentHistory();
+                } else if (targetPage === 'waste') {
+                    loadWastePickups();
+                } else if (targetPage === 'billing') {
+                    loadBillsHistory();
+                    initializeBillingForm();
+                } else if (targetPage === 'inventory') {
+                    loadInventoryData();
+                } else if (targetPage === 'loan') {
+                    loadLoanData();
+                } else if (targetPage === 'reports') {
+                    loadReportsData();
+                }
+            });
+        });
+
+        // ==================== DASHBOARD FUNCTIONALITY ====================
+
+        async function loadDashboardData() {
+            try {
+                // Load payment history for dashboard
+                const paymentsResponse = await fetch(`${API_BASE}/payment_history`);
+                const payments = await paymentsResponse.json();
+                updatePaymentHistory(payments);
+
+                // Load dashboard stats
+                const statsResponse = await fetch(`${API_BASE}/dashboard/stats`);
+                const stats = await statsResponse.json();
+                updateDashboardStats(stats);
+
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+            }
+        }
+
+        function updateDashboardStats(stats) {
+            // Update any dynamic stats if needed
+            console.log('Dashboard stats:', stats);
+        }
+
+        // Update payment history table
+        function updatePaymentHistory(payments) {
+            const historyTable = document.getElementById('verificationHistory');
+            if (!historyTable) return;
+
+            historyTable.innerHTML = '';
+
+            payments.forEach(payment => {
+                const statusClass = payment.status === 'verified' ? 'badge-success' : 'badge-danger';
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>${new Date(payment.created_at).toLocaleDateString('en-IN')}</td>
+                    <td>${payment.transaction_id}</td>
+                    <td>₹${payment.amount}</td>
+                    <td><span class="badge ${statusClass}">${payment.status}</span></td>
+                `;
+                historyTable.appendChild(newRow);
+            });
+        }
+
+        // ==================== PAYMENT VERIFICATION FUNCTIONALITY ====================
+
+        // Payment Verification
+        document.getElementById('paymentForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const transactionId = document.getElementById('transactionId').value;
+            const amount = document.getElementById('amount').value;
+
+            if (!transactionId || !amount) {
+                alert('Please fill all fields');
+                return;
+            }
+
+            document.getElementById('verificationResult').classList.remove('hidden');
+            document.getElementById('resultText').textContent = 'Verifying transaction...';
+
+            try {
+                const response = await fetch(`${API_BASE}/verify_payment`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ transactionId, amount })
+                });
+
+                const result = await response.json();
+
+                if (result.verified) {
+                    document.getElementById('resultText').innerHTML =
+                        `<span style="color: var(--success);">✅ ${result.message} Amount: ₹${amount}</span>`;
+                } else {
+                    document.getElementById('resultText').innerHTML =
+                        `<span style="color: var(--danger);">❌ ${result.message}</span>`;
+                }
+
+                // Reload payment history
+                loadPaymentHistory();
+            } catch (error) {
+                document.getElementById('resultText').innerHTML =
+                    `<span style="color: var(--danger);">❌ Verification failed: ${error.message}</span>`;
+            }
+        });
+
+        // Load payment history
+        async function loadPaymentHistory() {
+            try {
+                const response = await fetch(`${API_BASE}/payment_history`);
+                const payments = await response.json();
+
+                const historyTable = document.getElementById('paymentHistoryTable');
+                if (!historyTable) return;
+
+                historyTable.innerHTML = '';
+
+                payments.forEach(payment => {
+                    const statusClass = payment.status === 'verified' ? 'badge-success' : 'badge-danger';
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `
+                        <td>${new Date(payment.created_at).toLocaleDateString('en-IN')}</td>
+                        <td>${payment.transaction_id}</td>
+                        <td>₹${payment.amount}</td>
+                        <td><span class="badge ${statusClass}">${payment.status}</span></td>
+                    `;
+                    historyTable.appendChild(newRow);
+                });
+            } catch (error) {
+                console.error('Error loading payment history:', error);
+            }
+        }
+
+        // ==================== WASTE MANAGEMENT FUNCTIONALITY ====================
+
+        // Waste Management
+        document.getElementById('wasteForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const wasteType = document.getElementById('wasteType').value;
+            const quantity = document.getElementById('wasteQuantity').value;
+            const pickupDate = document.getElementById('pickupDate').value;
+
+            if (!wasteType || !quantity || !pickupDate) {
+                alert('Please fill all fields');
+                return;
+            }
+
+            // Simulate finding collectors
+            document.getElementById('collectorsList').innerHTML = '<p>🔍 Finding nearest waste collectors...</p>';
+
+            try {
+                const response = await fetch(`${API_BASE}/schedule_pickup`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ wasteType, quantity, pickupDate })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    document.getElementById('collectorsList').innerHTML = `
+                        <div style="padding: 1rem; background: #2A2A2A; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid var(--success);">
+                            <h4>🌿 Green Waste Collectors</h4>
+                            <p>📍 Distance: 1.2 km | ⭐ Rating: 4.5/5</p>
+                            <p>⏰ They will contact you within 1 hour to confirm pickup.</p>
+                        </div>
+                        <div style="padding: 1rem; background: #2A2A2A; border-radius: 8px; border-left: 4px solid var(--info);">
+                            <h4>♻️ Eco Recycling Solutions</h4>
+                            <p>📍 Distance: 2.1 km | ⭐ Rating: 4.2/5</p>
+                            <p>⏰ They will contact you within 2 hours to confirm pickup.</p>
+                        </div>
+                    `;
+
+                    // Reload pickup history
+                    loadWastePickups();
+                }
+            } catch (error) {
+                console.error('Error scheduling pickup:', error);
+            }
+        });
+
+        // Load waste pickups
+        async function loadWastePickups() {
+            try {
+                const response = await fetch(`${API_BASE}/pickup_history`);
+                const pickups = await response.json();
+
+                const historyTable = document.getElementById('pickupHistory');
+                if (!historyTable) return;
+
+                historyTable.innerHTML = '';
+
+                pickups.forEach(pickup => {
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `
+                        <td>${pickup.pickup_date}</td>
+                        <td>${pickup.waste_type}</td>
+                        <td>${pickup.quantity} kg</td>
+                        <td><span class="badge badge-warning">${pickup.status}</span></td>
+                        <td>Green Waste Collectors</td>
+                    `;
+                    historyTable.appendChild(newRow);
+                });
+            } catch (error) {
+                console.error('Error loading pickup history:', error);
+            }
+        }
+
+        // ==================== BUSINESS GUIDE FUNCTIONALITY ====================
+
+        // Business Guide Language Change
+        document.getElementById('languageSelect').addEventListener('change', function () {
+            const language = this.value;
+            const guideContent = document.getElementById('guideContent');
+
+            // In a real app, this would fetch content in the selected language
+            guideContent.innerHTML = `
+                <h4>🚀 Business Growth Tips (${language})</h4>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--dark-border);">✅ Understand your customers and their needs</li>
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--dark-border);">✅ Keep track of your finances regularly</li>
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--dark-border);">✅ Use digital tools for better efficiency</li>
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--dark-border);">✅ Network with other local businesses</li>
+                    <li style="padding: 0.5rem 0;">✅ Focus on customer service excellence</li>
+                </ul>
+            `;
+        });
+
+        // Expert Session Booking
+        document.getElementById('expertForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const expertType = document.getElementById('expertType').value;
+            const sessionDate = document.getElementById('sessionDate').value;
+            const sessionTime = document.getElementById('sessionTime').value;
+
+            if (!expertType || !sessionDate || !sessionTime) {
+                alert('Please fill all fields');
+                return;
+            }
+
+            alert(`✅ Expert session booked successfully!\n\n📊 Area: ${expertType}\n📅 Date: ${sessionDate}\n⏰ Time: ${sessionTime}\n\n📞 You will receive a confirmation call shortly.`);
+        });
+
+        // ==================== AUTOMATED BILLING SYSTEM ====================
+
+        // Initialize billing form
+        function initializeBillingForm() {
+            selectedProducts = [];
+            document.getElementById('billForm').reset();
+            document.getElementById('selectedProducts').innerHTML = `
+                <div style="text-align: center; color: var(--dark-text-secondary); padding: 2rem;">
+                    No products selected. Search and add products above.
+                </div>
+            `;
+            updateBillSummary();
+        }
+
+        // Product search functionality
+        document.getElementById('productSearch').addEventListener('input', async function (e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const suggestions = document.getElementById('productSuggestions');
+
+            if (searchTerm.length < 2) {
+                suggestions.style.display = 'none';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/products`);
+                const products = await response.json();
+
+                const filteredProducts = products.filter(product =>
+                    product.name.toLowerCase().includes(searchTerm)
+                );
+
+                if (filteredProducts.length === 0) {
+                    suggestions.innerHTML = '<div class="product-suggestion">No products found</div>';
+                } else {
+                    suggestions.innerHTML = filteredProducts.map(product => `
+                        <div class="product-suggestion" data-product='${JSON.stringify(product)}'>
+                            <strong>${product.name}</strong> - ₹${product.price} (${product.category}) - GST: ${product.gst}%
+                        </div>
+                    `).join('');
+                }
+
+                suggestions.style.display = 'block';
+
+                // Add click event to suggestions
+                document.querySelectorAll('.product-suggestion').forEach(suggestion => {
+                    suggestion.addEventListener('click', function () {
+                        const product = JSON.parse(this.getAttribute('data-product'));
+                        addProductToBill(product);
+                        document.getElementById('productSearch').value = '';
+                        suggestions.style.display = 'none';
+                    });
+                });
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        });
+
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.product-search')) {
+                document.getElementById('productSuggestions').style.display = 'none';
+            }
+        });
+
+        // Add product to bill
+        function addProductToBill(product) {
+            // Check if product already exists
+            const existingProduct = selectedProducts.find(p => p.id === product.id);
+
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            } else {
+                selectedProducts.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+
+            updateSelectedProductsList();
+            updateBillSummary();
+        }
+
+        // Update selected products list
+        function updateSelectedProductsList() {
+            const container = document.getElementById('selectedProducts');
+
+            if (selectedProducts.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; color: var(--dark-text-secondary); padding: 2rem;">
+                        No products selected. Search and add products above.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = selectedProducts.map(product => `
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #1E1E1E; border-radius: 8px; margin-bottom: 0.5rem;">
+                    <div style="flex: 2;">
+                        <strong>${product.name}</strong>
+                        <div style="font-size: 0.8rem; color: var(--dark-text-secondary);">
+                            ₹${product.price} × ${product.quantity} | GST: ${product.gst}%
+                        </div>
+                    </div>
+                    <div style="flex: 1; text-align: right;">
+                        ₹${(product.price * product.quantity).toFixed(2)}
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <button type="button" class="btn btn-outline btn-sm" onclick="updateProductQuantity(${product.id}, -1)">-</button>
+                        <span style="margin: 0 1rem;">${product.quantity}</span>
+                        <button type="button" class="btn btn-outline btn-sm" onclick="updateProductQuantity(${product.id}, 1)">+</button>
+                    </div>
+                    <div style="flex: 0.5; text-align: right;">
+                        <button type="button" class="btn btn-outline btn-sm" onclick="removeProduct(${product.id})" style="background: var(--danger); color: white; border-color: var(--danger);">×</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update product quantity
+        function updateProductQuantity(productId, change) {
+            const product = selectedProducts.find(p => p.id === productId);
+            if (product) {
+                product.quantity += change;
+                if (product.quantity <= 0) {
+                    removeProduct(productId);
+                } else {
+                    updateSelectedProductsList();
+                    updateBillSummary();
+                }
+            }
+        }
+
+        // Remove product from bill
+        function removeProduct(productId) {
+            selectedProducts = selectedProducts.filter(p => p.id !== productId);
+            updateSelectedProductsList();
+            updateBillSummary();
+        }
+
+        // Update bill summary
+        function updateBillSummary() {
+            let subtotal = 0;
+            let totalGst = 0;
+
+            selectedProducts.forEach(product => {
+                const productTotal = product.price * product.quantity;
+                subtotal += productTotal;
+                totalGst += productTotal * (product.gst / 100);
+            });
+
+            const total = subtotal + totalGst;
+
+            document.getElementById('summarySubtotal').textContent = `₹${subtotal.toFixed(2)}`;
+            document.getElementById('summaryGst').textContent = `₹${totalGst.toFixed(2)}`;
+            document.getElementById('summaryTotal').textContent = `₹${total.toFixed(2)}`;
+        }
+
+        // Bill form submission
+        document.getElementById('billForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const customerName = document.getElementById('customerName').value;
+            const customerPhone = document.getElementById('customerPhone').value;
+
+            if (!customerName) {
+                alert('Please enter customer name');
+                return;
+            }
+
+            if (selectedProducts.length === 0) {
+                alert('Please add at least one product to the bill');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/create_bill`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        customerName: customerName,
+                        customerPhone: customerPhone,
+                        items: selectedProducts.map(p => ({
+                            name: p.name,
+                            quantity: p.quantity,
+                            price: p.price,
+                            gst: p.gst
+                        }))
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(`✅ Bill created successfully!\n\nCustomer: ${customerName}\nTotal Amount: ₹${result.bill.total.toFixed(2)}\nBill No: ${result.bill.id}`);
+
+                    // Reset form
+                    initializeBillingForm();
+                    // Reload bills history
+                    loadBillsHistory();
+                } else {
+                    alert('Error creating bill: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error creating bill:', error);
+                alert('Error creating bill: ' + error.message);
+            }
+        });
+
+        // Load bills history
+        async function loadBillsHistory() {
+            try {
+                const response = await fetch(`${API_BASE}/bill_history`);
+                const bills = await response.json();
+
+                const historyTable = document.getElementById('billsHistory');
+                if (!historyTable) return;
+
+                historyTable.innerHTML = '';
+
+                if (bills.length === 0) {
+                    historyTable.innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 2rem;">
+                                No bills created yet. Create your first bill above!
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                bills.forEach(bill => {
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `
+                        <td>${bill.id}</td>
+                        <td>${new Date(bill.created_at).toLocaleDateString('en-IN')}</td>
+                        <td>${bill.customer_name}</td>
+                        <td>₹${bill.subtotal.toFixed(2)}</td>
+                        <td>₹${bill.gst.toFixed(2)}</td>
+                        <td>₹${bill.total.toFixed(2)}</td>
+                        <td>
+                            <button class="btn btn-outline btn-sm">View</button>
+                            <button class="btn btn-outline btn-sm">Print</button>
+                        </td>
+                    `;
+                    historyTable.appendChild(newRow);
+                });
+            } catch (error) {
+                console.error('Error loading bills history:', error);
+                const historyTable = document.getElementById('billsHistory');
+                if (historyTable) {
+                    historyTable.innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: var(--danger);">
+                                Error loading bills history
+                            </td>
+                        </tr>
+                    `;
+                }
+            }
+        }
+
+        // ==================== INVENTORY MANAGEMENT ====================
+
+        // Load inventory data
+        async function loadInventoryData() {
+            try {
+                const response = await fetch(`${API_BASE}/inventory`);
+                const inventory = await response.json();
+                updateInventoryTable(inventory);
+                updateInventoryStats(inventory);
+
+            } catch (error) {
+                console.error('Error loading inventory data:', error);
+            }
+        }
+
+        // Update inventory table
+        function updateInventoryTable(inventory) {
+            const table = document.getElementById('inventoryTable');
+            if (!table) return;
+
+            table.innerHTML = '';
+
+            inventory.forEach(item => {
+                const statusClass = item.stock > 10 ? 'badge-success' :
+                    item.stock > 0 ? 'badge-warning' : 'badge-danger';
+                const statusText = item.stock > 10 ? 'In Stock' :
+                    item.stock > 0 ? 'Low Stock' : 'Out of Stock';
+
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>${item.id}</td>
+                    <td>${item.product_name}</td>
+                    <td>${item.category}</td>
+                    <td>₹${item.price}</td>
+                    <td>${item.stock}</td>
+                    <td><span class="badge ${statusClass}">${statusText}</span></td>
+                    <td>
+                        <button class="btn btn-outline btn-sm" style="margin-right: 0.5rem;">Edit</button>
+                        <button class="btn btn-outline btn-sm" style="background: var(--danger); color: white; border-color: var(--danger);">Delete</button>
+                    </td>
+                `;
+                table.appendChild(newRow);
+            });
+        }
+
+        // Update inventory statistics
+        function updateInventoryStats(inventory) {
+            const totalProducts = inventory.length;
+            const lowStockItems = inventory.filter(item => item.stock <= 10 && item.stock > 0).length;
+
+            const totalProductsEl = document.getElementById('totalProducts');
+            const lowStockItemsEl = document.getElementById('lowStockItems');
+
+            if (totalProductsEl) totalProductsEl.textContent = totalProducts;
+            if (lowStockItemsEl) lowStockItemsEl.textContent = lowStockItems;
+        }
+
+        // Inventory form submission
+        document.getElementById('inventoryForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const productName = document.getElementById('productName').value;
+            const category = document.getElementById('productCategory').value;
+            const price = document.getElementById('productPrice').value;
+            const stock = document.getElementById('productStock').value;
+            const description = document.getElementById('productDescription').value;
+
+            if (!productName || !price || !stock) {
+                alert('Please fill all required fields');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/add_inventory`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        productName,
+                        category,
+                        price: parseFloat(price),
+                        stock: parseInt(stock),
+                        description
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(`✅ Product "${productName}" added to inventory successfully!`);
+                    document.getElementById('inventoryForm').reset();
+                    loadInventoryData();
+                } else {
+                    alert('Error adding product: ' + result.message);
+                }
+            } catch (error) {
+                alert('Error adding product: ' + error.message);
+            }
+        });
+
+        // ==================== LOAN & SCHEMES FUNCTIONALITY ====================
+
+        // Bank Loan Application Functions
+        function applyYesBankLoan() {
+            const partnerUrl = "https://www.yesbank.in/business-banking/msme-lending";
+            trackLoanApplication('Yes Bank MSME Loan');
+            window.open(partnerUrl, '_blank');
+        }
+
+        function applySBILoan() {
+            const partnerUrl = "https://sbi.co.in/web/msme/msme-lending";
+            trackLoanApplication('SBI MSME Loan');
+            window.open(partnerUrl, '_blank');
+        }
+
+        function applyHDFCLoan() {
+            const partnerUrl = "https://www.hdfcbank.com/personal/borrow/popular-loans/business-loan";
+            trackLoanApplication('HDFC Business Loan');
+            window.open(partnerUrl, '_blank');
+        }
+
+        // Government Scheme Website Links
+        function openMUDRAWebsite() {
+            window.open("https://www.mudra.org.in", '_blank');
+        }
+
+        function openCGTMSEWebsite() {
+            window.open("https://www.cgtmse.in", '_blank');
+        }
+
+        function openStandUpIndiaWebsite() {
+            window.open("https://www.standupmitra.in", '_blank');
+        }
+
+        function openPSB59Website() {
+            window.open("https://www.psbloansin59minutes.com", '_blank');
+        }
+
+        // Track loan applications for analytics
+        function trackLoanApplication(loanType) {
+            console.log(`Loan application tracked: ${loanType}`);
+            alert(`✅ You're being redirected to ${loanType} application.\n\nWe'll help you track your application status.`);
+        }
+
+        // Loan Eligibility Calculator
+        function calculateEligibility() {
+            const monthlyRevenue = parseFloat(document.getElementById('monthlyRevenue').value);
+            const businessAge = parseFloat(document.getElementById('businessAge').value);
+            const creditScore = parseFloat(document.getElementById('creditScore').value) || 650;
+
+            if (!monthlyRevenue || !businessAge) {
+                alert('Please enter your monthly revenue and business age');
+                return;
+            }
+
+            let eligibleAmount = monthlyRevenue * 6;
+            if (businessAge >= 3) eligibleAmount *= 1.5;
+            if (businessAge >= 5) eligibleAmount *= 2;
+            if (creditScore >= 750) eligibleAmount *= 1.2;
+            if (creditScore >= 800) eligibleAmount *= 1.5;
+            eligibleAmount = Math.min(eligibleAmount, monthlyRevenue * 24);
+
+            const resultDiv = document.getElementById('eligibilityResult');
+            const resultText = document.getElementById('eligibilityText');
+
+            resultText.innerHTML = `
+                <div style="margin-bottom: 1rem;">
+                    <strong>Estimated Eligible Loan Amount:</strong>
+                    <div style="font-size: 1.5rem; color: var(--secondary); font-weight: bold;">
+                        ₹${eligibleAmount.toLocaleString('en-IN')}
+                    </div>
+                </div>
+                <div style="margin-bottom: 0.5rem;">
+                    <strong>Recommended Loan Types:</strong>
+                    <div>${getRecommendedLoans(eligibleAmount, businessAge)}</div>
+                </div>
+                <div style="font-size: 0.9rem; color: var(--dark-text-secondary);">
+                    Based on your monthly revenue of ₹${monthlyRevenue.toLocaleString('en-IN')} and ${businessAge} years in business.
+                </div>
+            `;
+
+            resultDiv.classList.remove('hidden');
+        }
+
+        function getRecommendedLoans(amount, businessAge) {
+            if (amount <= 50000) {
+                return "MUDRA Shishu Loan, Small Business Micro Loan";
+            } else if (amount <= 500000) {
+                return "MUDRA Kishor Loan, Working Capital Loan";
+            } else if (amount <= 2000000) {
+                return "MUDRA Tarun Loan, Business Expansion Loan";
+            } else {
+                return "CGTMSE Scheme, PSB 59 Minutes Loan, Term Loan";
+            }
+        }
+
+        // Load loan data
+        async function loadLoanData() {
+            try {
+                console.log('Loading loan data...');
+            } catch (error) {
+                console.error('Error loading loan data:', error);
+            }
+        }
+
+        // ==================== REPORTS & ANALYTICS ====================
+
+        // Load reports data
+        async function loadReportsData() {
+            try {
+                const response = await fetch(`${API_BASE}/reports/summary`);
+                const reports = await response.json();
+                console.log('Reports data:', reports);
+                // You can update the reports page with this data
+            } catch (error) {
+                console.error('Error loading reports data:', error);
+            }
+        }
+
+        // Generate custom report
+        function generateReport() {
+            const reportType = document.getElementById('reportType').value;
+            const reportPeriod = document.getElementById('reportPeriod').value;
+
+            alert(`📊 Generating ${reportType} report for ${reportPeriod}...\n\nReport will be available for download shortly.`);
+        }
+
+        // Initialize billing when page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeBillingForm();
+        });
+    </script>
+</body>
+
+</html>
